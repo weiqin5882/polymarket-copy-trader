@@ -1,0 +1,52 @@
+{
+  "mode": "analyze",  // "analyze" 仅分析, "copy" 实际跟单
+  
+  // 跟随的交易者（如果为空则自动发现）
+  "follow_traders": [
+    // {
+    //   "address": "0x...",
+    //   "name": "TopTrader1",
+    //   "follow_ratio": 0.1,
+    //   "max_amount": 500
+    // }
+  ],
+  
+  // 自动发现设置
+  "discovery": {
+    "enabled": true,
+    "min_score": 70,
+    "min_win_rate": 0.55,
+    "min_trades": 20,
+    "limit": 10
+  },
+  
+  // 风险控制
+  "risk": {
+    "max_total_exposure": 5000,    // 总最大敞口（USDC）
+    "max_single_trade": 500,       // 单笔最大跟随金额
+    "max_open_positions": 10,      // 最大同时持仓数
+    "stop_loss_pct": 0.15,         // 止损 15%
+    "take_profit_pct": 0.30        // 止盈 30%
+  },
+  
+  // 跟单设置
+  "copy": {
+    "follow_delay": 3,             // 延迟3秒跟随（避免抢跑）
+    "default_follow_ratio": 0.1,   // 默认跟随比例 10%
+    "min_market_price": 0.05,      // 不跟价格<5%的市场
+    "max_market_price": 0.95       // 不跟价格>95%的市场
+  },
+  
+  // 市场过滤
+  "filters": {
+    "excluded_keywords": ["test", "demo", "practice"],
+    "min_liquidity": 10000,        // 最小流动性 $10k
+    "max_spread": 0.02             // 最大价差 2%
+  },
+  
+  // 监控设置
+  "monitor": {
+    "check_interval": 5,           // 检查间隔（秒）
+    "log_level": "info"
+  }
+}
