@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  copy-trader:
+    build: .
+    container_name: polymarket-copy-trader
+    restart: unless-stopped
+    
+    volumes:
+      # 配置文件
+      - ./config.json:/app/config.json:ro
+      - ./.env:/app/.env:ro
+      # 日志和数据持久化
+      - ./logs:/app/logs
+      - ./data:/app/data
+    
+    environment:
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=INFO
+    
+    # 资源限制
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    
+    # 日志配置
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    
+    # 健康检查
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('https://data-api.polymarket.com', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # 可选：监控面板（使用 Grafana + Prometheus）
+  # prometheus:
+  #   image: prom/prometheus:latest
+  #   container_name: prometheus
+  #   volumes:
+  #     - ./prometheus.yml:/etc/prometheus/prometheus.yml
+  #     - prometheus_data:/prometheus
+  #   ports:
+  #     - "9090:9090"
+  #   restart: unless-stopped
+
+  # grafana:
+  #   image: grafana/grafana:latest
+  #   container_name: grafana
+  #   volumes:
+  #     - grafana_data:/var/lib/grafana
+  #   ports:
+  #     - "3000:3000"
+  #   restart: unless-stopped
+
+# volumes:
+#   prometheus_data:
+#   grafana_data:

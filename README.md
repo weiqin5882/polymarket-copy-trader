@@ -39,10 +39,26 @@ polymarket-copy-trader/
 
 ## 🚀 快速开始
 
-### 1. 安装依赖
+### 方式一：服务器部署（推荐）
 
 ```bash
+# 一键部署到服务器
+curl -fsSL https://raw.githubusercontent.com/weiqin5882/polymarket-copy-trader/master/deploy.sh | sudo bash
+
+# 查看部署指南
+cat DEPLOY.md
+```
+
+[📖 完整部署指南](DEPLOY.md)
+
+### 方式二：本地运行
+
+```bash
+# 1. 安装依赖
 pip install requests python-dotenv
+
+# 2. 运行
+python copy_trader.py
 ```
 
 ### 2. 配置策略
